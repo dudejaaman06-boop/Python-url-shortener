@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shortly - URL Shortener</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <main class="container">
+        <section class="card">
+            <div class="logo">Shortly</div>
+            <h1>Make your URLs shorter.</h1>
+            <p class="subtitle">Create simple, short and shareable links.</p>
+
+            <form method="POST">
+                <div class="input-area">
+                    <input type="url" name="url"
+                           placeholder="https://example.com/your-long-url"
+                           required>
+                    <button type="submit">Shorten URL</button>
+                </div>
+            </form>
+
+            {% if error %}
+            <div class="error">{{ error }}</div>
+            {% endif %}
+
+            {% if short_url %}
+            <div class="result">
+                <p>Your shortened URL</p>
+                <div class="short-url">
+                    <a href="{{ short_url }}" target="_blank">{{ short_url }}</a>
+                    <button type="button" onclick="copyURL()">Copy</button>
+                </div>
+                <div id="message"></div>
+            </div>
+            {% endif %}
+        </section>
+
+        <section class="features">
+            <div class="feature">
+                <span>⚡</span>
+                <h3>Fast</h3>
+                <p>Generate short URLs instantly.</p>
+            </div>
+            <div class="feature">
+                <span>🔗</span>
+                <h3>Simple</h3>
+                <p>Easy-to-share links.</p>
+            </div>
+            <div class="feature">
+                <span>📊</span>
+                <h3>Analytics</h3>
+                <p>Track URL clicks.</p>
+            </div>
+        </section>
+    </main>
+
+    {% if short_url %}
+    <script>
+        function copyURL() {
+            const url = "{{ short_url }}";
+            navigator.clipboard.writeText(url);
+            document.getElementById("message").innerText = "Copied to clipboard!";
+        }
+    </script>
+    {% endif %}
+</body>
+</html>
